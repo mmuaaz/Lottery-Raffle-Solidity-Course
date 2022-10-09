@@ -94,7 +94,7 @@ constructor(address vrfCoordinatorV2, uint256 entranceFee, bytes32 gasLane, uint
     //elements like "returns" "bytes memory"
          /* checkData */
     ) public view override returns (bool upkeepNeeded, bytes memory /*performData*/) //performData is used if we want to have "checkupKeep" do something 
-    //depending on how this "ceckUpKeep" function runs
+    //depending on how this "checkUpKeep" function runs
        { bool isOpen = RaffleState.OPEN == s_raffleState;
         //(block.timestamp - last timestamp) > interval
         bool timePassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
@@ -133,6 +133,13 @@ function fulfillRandomWords/*same as fulfillRandomNumbers*/(
         uint256 /*requestId*/, //not using requestId
         uint256[] memory randomWords
     ) internal override { //internal override /*This syntax is also found in the VRFConsumerBaseV2 SC with the same function*/{}
+    // s_players size 10
+        // randomNumber 202
+        // 202 % 10 ? what's doesn't divide evenly into 202?
+        // 202 / 10 = 200 + 2
+	// 200 * 10 = 200
+        // remainder 2
+        // 202 % 10 = 2
     uint256 indexOfWinner = randomWords[0] % s_players.length; //randomWords array has only 1 indexed entry as it will at 0th position. players.length is gonna be 
     //whole length of the s_players array
     address payable recentWinner = s_players[indexOfWinner]; // getting the address of "indexofWinner"

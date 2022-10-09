@@ -6,12 +6,12 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
     ? describe.skip
     : describe("Raffle Unit Tests", function () {
           let raffle, raffleContract, vrfCoordinatorV2Mock, raffleEntranceFee, interval, player // , deployer
-
+          const chainId = network.config.chainId
           beforeEach(async () => {
               accounts = await ethers.getSigners() // could also do with getNamedAccounts
               //   deployer = accounts[0]
               player = accounts[1]
-              await deployments.fixture(["mocks", "raffle"]) // Deploys modules with the tags "mocks" and "raffle"
+              await deployments.fixture(["all"]) // Deploys modules with the tags "mocks" and "raffle"
               vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock") // Returns a new connection to the VRFCoordinatorV2Mock contract
               raffleContract = await ethers.getContract("Raffle") // Returns a new connection to the Raffle contract
               raffle = raffleContract.connect(player) // Returns a new instance of the Raffle contract connected to player
@@ -28,7 +28,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   assert.equal(raffleState, "0")
                   assert.equal(
                       interval.toString(),
-                      networkConfig[network.config.chainId]["keepersUpdateInterval"]
+                      networkConfig[network.config.chainId]["interval"]
                   )
               })
           })
@@ -163,11 +163,12 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                           // it in a try/catch so that the promise returns event
                           // if it fails.
                           try {
-                              // Now lets get the ending values...
+                              resolve() // if try passes, resolves the promise// Now lets get the ending values...
                               const recentWinner = await raffle.getRecentWinner()
                               const raffleState = await raffle.getRaffleState()
                               const winnerBalance = await accounts[2].getBalance()
                               const endingTimeStamp = await raffle.getLastTimeStamp()
+                              const numPlayers = await raffle.getNumberOfPlayers()
                               await expect(raffle.getPlayer(0)).to.be.reverted
                               // Comparisons to check if our ending values are correct:
                               assert.equal(recentWinner.toString(), accounts[2].address)
@@ -183,7 +184,6 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                                       .toString()
                               )
                               assert(endingTimeStamp > startingTimeStamp)
-                              resolve() // if try passes, resolves the promise
                           } catch (e) {
                               reject(e) // if try fails, rejects the promise
                           }

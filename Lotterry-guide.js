@@ -50,7 +50,7 @@ const { messagePrefix } = require("@ethersproject/hash")
 ;/---1st tx will request the RANDOM NUMBER and the 2nd tx will be the one in which we get the RANDOM NUMBER and in the same tx we*/
 ;/get to send the winner the money or the reward he won*/
 //RUN COMM: yarn add --dev @chainlink/contracts
-//we need to make our Raffle.sol SC VRFConsumerBase-able     We nned to inherit our V2ConsumerBase
+//we need to make our Raffle.sol SC VRFConsumerBase-able     We need to inherit our V2ConsumerBase
 ;/virtual function are meant to be overriden*/
 //fulfillRandomWords is a internal "virtual" function, because it is expecting to be overriden; The reason that its in this
 // VRFConsumerBaseV2 is so that "vrfCoordinatorV2" knows it can call this "fulfillRandomWords" function
@@ -119,3 +119,14 @@ const { messagePrefix } = require("@ethersproject/hash")
 // so in our SC, "requestRandomWinner" is technically a "performUpKeep" function we need in order to use ChainLink Keepers
 ;/block.timestamp*/
 //retunrs the accurate time of the BC at the current time
+;/Registeration for subscription Id/
+//Get our SubId for chainLink VRF
+// Deploy our contract using the SubId
+// Register the contract with chainLink VRF and its SubID
+// Register the contract with ChainLink Keepers
+// RUN staging tests
+;/Before deploying be sure to check with github repo of the course  for the optimal hardhat.config. So that all the module.exports are there/
+;/99-deploy-front-end.js/ // we created this deploy script for our front end that whenever we deploy our contracts, it updates our front end accodingly;
+//  we want this fie to the last script to deploy so we named it "99"
+// we write this script which is connected to our front end so that whenever we deploy the contracts and no matter what chain we are on; it runs our front-end accordingly and update our "constants" folder
+// So another thing we did, is added a variable in the ".env" file, so that we configure if we want to update our front-end or not, because sometimes we dont want to care about front end

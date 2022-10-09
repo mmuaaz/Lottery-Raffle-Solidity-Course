@@ -59,7 +59,13 @@ module.exports = {
             blockConfirmations: 6,
         },
     },
+    etherscan: {
+        // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+        apiKey: {
+            goerli: ETHERSCAN_API_KEY,
+        },
+    },
     mocha: {
-        timeout: 50000, // 500 seconds max for running tests
+        timeout: 100000000, // 500 seconds max for running tests
     },
 }

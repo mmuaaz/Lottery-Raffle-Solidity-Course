@@ -1,6 +1,6 @@
 const { network, ethers } = require("hardhat")
 const { developmentChains, networkConfig } = require("../helper-hardhat-config")
-const { verify } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
 // const { verify } = require("../utils/verify")
 const FUND_AMOUNT = /*"100000000000000000"*/ ethers.utils.parseEther("1")
 
